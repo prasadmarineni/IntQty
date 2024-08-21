@@ -18,3 +18,487 @@
       }
     }
 
+
+2. Create a pipe to format date for display:
+
+
+    @Pipe({
+      name: 'dateFormat'
+    })
+    export class DateFormatPipe implements PipeTransform {
+      transform(value: Date): string {
+        return value ? value.toLocaleDateString() : '';
+      }
+    }
+
+
+3. How to implement reusable 5 start rating(* * * * *) 
+
+
+4. Write a service to handle API calls with error handling:
+
+
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class ApiService {
+      private apiUrl = 'https://api.example.com';
+
+      constructor(private http: HttpClient) { }
+
+      getData(): Observable<any> {
+        return this.http.get(this.apiUrl).pipe(
+          catchError((error: any) => {
+            console.error(error);
+            return throwError(error);
+          })
+        );
+      }
+    }
+
+
+5. What "Spread Operator" (...) and it's feature in JavaScript?
+
+    - Merge arrays (or objects) into a new one
+    - Create a shallow copy of an array (or object)
+    - Insert elements from one array into another
+
+
+6. Merge two Arrays into new one by using Spread Operator
+
+    - Merging two arrays into one:
+
+    let array1 = [1, 2, 3];
+    let array2 = [4, 5, 6];
+    let mergedArray = [...array1, ...array2];
+    console.log(mergedArray); // Output: [1, 2, 3, 4, 5, 6]
+
+
+6. Copy Array into another variable by Spread Operator
+
+    - Creating a copy of an array:
+
+
+    let originalArray = [1, 2, 3];
+    let copiedArray = [...originalArray];
+    console.log(copiedArray); // Output: [1, 2, 3]
+
+
+7. Array Split
+
+    - Splitting an array into two separate arrays:
+
+
+    let originalArray = [1, 2, 3, 4, 5];
+    let splitIndex = 3;
+    let array1 = originalArray.slice(0, splitIndex);
+    let array2 = originalArray.slice(splitIndex);
+    console.log(array1); // Output: [1, 2, 3]
+    console.log(array2); // Output: [4, 5]
+
+
+    Note: The slice() method returns a shallow copy of a portion of an array.
+
+
+8. Rest Parameter (...): Collects remaining arguments into an array.
+
+
+    function sum(...numbers) {
+      return numbers.reduce((a, b) => a + b, 0);
+    }
+    console.log(sum(1, 2, 3, 4, 5)); // Output: 15
+
+
+9. Object Destructuring ({ ... }): Unpacks object properties into variables.
+
+
+    let person = { name: "John", age: 30 };
+    let { name, age } = person;
+    console.log(name); // Output: "John"
+    console.log(age); // Output: 30
+
+
+10. Array Destructuring ([ ... ]): Unpacks array elements into variables.
+
+
+    let numbers = [1, 2, 3];
+    let [first, second, third] = numbers;
+    console.log(first); // Output: 1
+    console.log(second); // Output: 2
+    console.log(third); // Output: 3
+
+
+11. Optional Chaining (?.): Accesses nested properties without null pointer exceptions.
+
+
+    let person = { name: "John", address: { street: "123 Main St" } };
+    console.log(person.address?.street); // Output: "123 Main St"
+
+
+12. Nullish Coalescing (??): Returns the first non-nullish value.
+
+
+    let name = null;
+    let fullName = name ?? "John Doe";
+    console.log(fullName); // Output: "John Doe"
+
+
+13. Dependency Injection:
+
+    Inject services into components:
+
+
+    // user.service.ts
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class UserService {
+      getUsers() {
+        return ['John', 'Doe'];
+      }
+    }
+
+    // user.component.ts
+    import { Component, Inject } from '@angular/core';
+    import { UserService } from './user.service';
+
+    @Component({
+      selector: 'app-user',
+      template: '<p>Users: {{ users | json }}</p>'
+    })
+    export class UserComponent {
+      users;
+
+      constructor(private userService: UserService) {
+        this.users = this.userService.getUsers();
+      }
+    }
+
+
+14. Property Binding:
+
+    Bind component properties to template elements:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<input [value]="name">'
+    })
+    export class UserComponent {
+      name = 'John';
+    }
+
+
+15. Event Binding:
+
+    Bind template events to component methods:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<button (click)="handleClick()">Click me</button>'
+    })
+    export class UserComponent {
+      handleClick() {
+        console.log('Button clicked!');
+      }
+    }
+
+
+16. Two-way Binding:
+
+    Sync input fields with component properties:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<input [(ngModel)]="name">'
+    })
+    export class UserComponent {
+      name = 'John';
+    }
+
+
+17. Structural Directives*:
+
+    Manipulate the DOM structure:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<div *ngIf="showUsers">Users: {{ users | json }}</div>'
+    })
+    export class UserComponent {
+      showUsers = true;
+      users = ['John', 'Doe'];
+    }
+
+
+18. Pipes:
+
+    Transform data in templates:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<p>Users: {{ users | json | uppercase }}</p>'
+    })
+    export class UserComponent {
+      users = ['John', 'Doe'];
+    }
+
+
+19. Custom Directives:
+
+    Create custom directives:
+
+
+    // highlight.directive.ts
+    import { Directive, ElementRef } from '@angular/core';
+
+    @Directive({
+      selector: '[appHighlight]'
+    })
+    export class HighlightDirective {
+      constructor(private el: ElementRef) {
+        this.el.nativeElement.style.backgroundColor = 'yellow';
+      }
+    }
+
+    // user.component.html
+    <p appHighlight>Highlighted text</p>
+
+
+20. Animations:
+
+    Add animations to components:
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+    import { animate, style, transition, trigger } from '@angular/animations';
+
+    @Component({
+      selector: 'app-user',
+      template: `
+        <div [@fadeIn]="'in'">
+          <p>Username: {{ name }}</p>
+        </div>
+      `,
+      animations: [
+        trigger('fadeIn', [
+          transition('void => *', [
+            style({ opacity: 0 }),
+            animate(1000, style({ opacity: 1 }))
+          ])
+        ])
+      ]
+    })
+    export class UserComponent {
+      name = 'John';
+    }
+
+
+21. Interceptors:
+
+    Modify HTTP requests and responses:
+
+
+    // auth.interceptor.ts
+    import { Injectable } from '@angular/core';
+    import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+
+    @Injectable()
+    export class AuthInterceptor implements HttpInterceptor {
+      intercept(req: HttpRequest<any>, next: HttpHandler) {
+        const authReq = req.clone({
+          headers: req.headers.set('Authorization', 'Bearer YOUR_TOKEN')
+        });
+        return next.handle(authReq);
+      }
+    }
+
+
+22. Component Life Cycle
+
+    import { Component, OnInit, OnDestroy, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<p>User Component</p>'
+    })
+    export class UserComponent implements OnInit, OnDestroy, DoCheck, AfterContentInit, 
+      AfterContentChecked, AfterViewInit, AfterViewChecked {
+      
+      constructor() {
+        console.log('Constructor called');
+      }
+
+      ngOnInit(): void {
+        console.log('ngOnInit called');
+      }
+
+      ngOnDestroy(): void {
+        console.log('ngOnDestroy called');
+      }
+
+      ngDoCheck(): void {
+        console.log('ngDoCheck called');
+      }
+
+      ngAfterContentInit(): void {
+        console.log('ngAfterContentInit called');
+      }
+
+      ngAfterContentChecked(): void {
+        console.log('ngAfterContentChecked called');
+      }
+
+      ngAfterViewInit(): void {
+        console.log('ngAfterViewInit called');
+      }
+
+      ngAfterViewChecked(): void {
+        console.log('ngAfterViewChecked called');
+      }
+    }
+
+
+    In this example, the constructor is called first, followed by the ngOnInit hook. The ngDoCheck hook is called repeatedly, followed by the ngAfterContentInit and ngAfterContentChecked hooks. Finally, the ngAfterViewInit and ngAfterViewChecked hooks are called, followed by the ngOnDestroy hook when the component is destroyed.
+
+
+    Here is the order of the log prints in the above example:
+
+    1. "Constructor called"
+    2. "ngOnInit called"
+    3. "ngDoCheck called" (repeatedly)
+    4. "ngAfterContentInit called"
+    5. "ngAfterContentChecked called" (repeatedly)
+    6. "ngAfterViewInit called"
+    7. "ngAfterViewChecked called" (repeatedly)
+    8. "ngOnDestroy called"
+
+    Note that the ngDoCheck, ngAfterContentChecked, and ngAfterViewChecked hooks are called repeatedly, while the others are called only once.
+
+
+23. Input Validation:
+
+    Validate user input to prevent XSS attacks.
+
+
+    // user.component.ts
+    import { Component } from '@angular/core';
+
+    @Component({
+      selector: 'app-user',
+      template: '<p>Username: {{ username }}</p>'
+    })
+    export class UserComponent {
+      username = '';
+
+      onUsernameInput(input: string) {
+        this.username = input.trim(); // trim to remove whitespace
+        if (!input.match(/^[a-zA-Z0-9]+$/)) { // validate input
+          console.error('Invalid username');
+        }
+      }
+    }
+
+
+24. Sanitization:
+
+    Use Angular's DomSanitizer to sanitize HTML content.
+
+
+    // article.component.ts
+    import { Component } from '@angular/core';
+    import { DomSanitizer } from '@angular/platform-browser';
+
+    @Component({
+      selector: 'app-article',
+      template: '<div [innerHTML]="articleContent"></div>'
+    })
+    export class ArticleComponent {
+      articleContent = '';
+
+      constructor(private sanitizer: DomSanitizer) { }
+
+      ngOnInit(): void {
+        const htmlContent = '<p>This is a <script>alert("XSS")</script> example.</p>';
+        this.articleContent = this.sanitizer.bypassSecurityTrustHtml(htmlContent);
+      }
+    }
+
+
+25. Authentication:
+
+    Implement authentication using Angular's HTTPInterceptor.
+
+
+    // auth.interceptor.ts
+    import { Injectable } from '@angular/core';
+    import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+
+    @Injectable()
+    export class AuthInterceptor implements HttpInterceptor {
+      intercept(req: HttpRequest<any>, next: HttpHandler) {
+        const token = localStorage.getItem('token');
+        if (token) {
+          req = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+        }
+        return next.handle(req);
+      }
+    }
+
+
+26. HTTPS:
+
+    Serve your application over HTTPS to encrypt data in transit.
+
+
+    // server.ts
+    import * as https from 'https';
+    import * as fs from 'fs';
+
+    const options = {
+      key: fs.readFileSync('path/to/ssl/key.pem'),
+      cert: fs.readFileSync('path/to/ssl/cert.pem')
+    };
+
+    https.createServer(options, (req, res) => {
+      // handle requests
+    }).listen(443, () => {
+      console.log('Server listening on port 443');
+    });
+
+
+27. Content Security Policy (CSP):
+
+    Implement CSP to define allowed sources of content.
+
+
+    // index.html
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.example.com; style-src 'self' https://cdn.example.com;">
+
+
+
+
