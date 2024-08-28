@@ -57,6 +57,12 @@
     }
 
 
+    1. providedIn: 'root': Provides the service at the root level, making it available to all components in the application.
+    2. providedIn: 'platform': Provides the service at the platform level, making it available to all components in the platform.
+    3. providedIn: 'any': Provides the service at the component level, making it available only to the component that injects it.
+    4. providedIn: NgModule: Provides the service at the module level, making it available to all components within that module.
+
+
 5. What "Spread Operator" (...) and it's feature in JavaScript?
 
     - Merge arrays (or objects) into a new one
